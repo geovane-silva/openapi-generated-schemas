@@ -1,0 +1,126 @@
+{
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": "string"
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": "string"
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "Telemetry defines how the telemetry is generated for workloads within a mesh.",
+      "type": "object",
+      "properties": {
+        "selector": {
+          "description": "Optional.",
+          "type": "object",
+          "properties": {
+            "matchLabels": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string",
+                "format": "string"
+              }
+            }
+          }
+        },
+        "tracing": {
+          "description": "Optional.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "customTags": {
+                "description": "Optional.",
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "environment": {
+                      "description": "Environment adds the value of an environment variable to each span.",
+                      "type": "object",
+                      "properties": {
+                        "defaultValue": {
+                          "description": "Optional.",
+                          "type": "string",
+                          "format": "string"
+                        },
+                        "name": {
+                          "description": "Name of the environment variable from which to extract the tag value.",
+                          "type": "string",
+                          "format": "string"
+                        }
+                      }
+                    },
+                    "header": {
+                      "description": "RequestHeader adds the value of an header from the request to each span.",
+                      "type": "object",
+                      "properties": {
+                        "defaultValue": {
+                          "description": "Optional.",
+                          "type": "string",
+                          "format": "string"
+                        },
+                        "name": {
+                          "description": "Name of the header from which to extract the tag value.",
+                          "type": "string",
+                          "format": "string"
+                        }
+                      }
+                    },
+                    "literal": {
+                      "description": "Literal adds the same, hard-coded value to each span.",
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "description": "The tag value to use.",
+                          "type": "string",
+                          "format": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "disableSpanReporting": {
+                "description": "Controls span reporting."
+              },
+              "providers": {
+                "description": "Optional.",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "description": "Required.",
+                      "type": "string",
+                      "format": "string"
+                    }
+                  }
+                }
+              },
+              "randomSamplingPercentage": {}
+            }
+          }
+        }
+      }
+    },
+    "status": {
+      "x-kubernetes-preserve-unknown-fields": true
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "telemetry.istio.io",
+      "kind": "Telemetry",
+      "version": "v1alpha1"
+    }
+  ],
+  "$schema": "http://json-schema.org/schema#"
+}

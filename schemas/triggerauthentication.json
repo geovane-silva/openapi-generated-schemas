@@ -1,0 +1,256 @@
+{
+  "description": "TriggerAuthentication defines how a trigger can authenticate",
+  "type": "object",
+  "required": [
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": "string"
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": "string"
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "TriggerAuthenticationSpec defines the various ways to authenticate",
+      "type": "object",
+      "properties": {
+        "azureKeyVault": {
+          "description": "AzureKeyVault is used to authenticate using Azure Key Vault",
+          "type": "object",
+          "required": [
+            "secrets",
+            "vaultUri"
+          ],
+          "properties": {
+            "cloud": {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "activeDirectoryEndpoint": {
+                  "type": "string"
+                },
+                "keyVaultResourceURL": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              }
+            },
+            "credentials": {
+              "type": "object",
+              "required": [
+                "clientId",
+                "clientSecret",
+                "tenantId"
+              ],
+              "properties": {
+                "clientId": {
+                  "type": "string"
+                },
+                "clientSecret": {
+                  "type": "object",
+                  "required": [
+                    "valueFrom"
+                  ],
+                  "properties": {
+                    "valueFrom": {
+                      "type": "object",
+                      "required": [
+                        "secretKeyRef"
+                      ],
+                      "properties": {
+                        "secretKeyRef": {
+                          "type": "object",
+                          "required": [
+                            "key",
+                            "name"
+                          ],
+                          "properties": {
+                            "key": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "tenantId": {
+                  "type": "string"
+                }
+              }
+            },
+            "secrets": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "parameter"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "parameter": {
+                    "type": "string"
+                  },
+                  "version": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "vaultUri": {
+              "type": "string"
+            }
+          }
+        },
+        "env": {
+          "type": "array",
+          "items": {
+            "description": "AuthEnvironment is used to authenticate using environment variables in the destination ScaleTarget spec",
+            "type": "object",
+            "required": [
+              "name",
+              "parameter"
+            ],
+            "properties": {
+              "containerName": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "parameter": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "hashiCorpVault": {
+          "description": "HashiCorpVault is used to authenticate using Hashicorp Vault",
+          "type": "object",
+          "required": [
+            "address",
+            "authentication",
+            "secrets"
+          ],
+          "properties": {
+            "address": {
+              "type": "string"
+            },
+            "authentication": {
+              "description": "VaultAuthentication contains the list of Hashicorp Vault authentication methods",
+              "type": "string"
+            },
+            "credential": {
+              "description": "Credential defines the Hashicorp Vault credentials depending on the authentication method",
+              "type": "object",
+              "properties": {
+                "serviceAccount": {
+                  "type": "string"
+                },
+                "token": {
+                  "type": "string"
+                }
+              }
+            },
+            "mount": {
+              "type": "string"
+            },
+            "namespace": {
+              "type": "string"
+            },
+            "role": {
+              "type": "string"
+            },
+            "secrets": {
+              "type": "array",
+              "items": {
+                "description": "VaultSecret defines the mapping between the path of the secret in Vault to the parameter",
+                "type": "object",
+                "required": [
+                  "key",
+                  "parameter",
+                  "path"
+                ],
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "parameter": {
+                    "type": "string"
+                  },
+                  "path": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "podIdentity": {
+          "description": "AuthPodIdentity allows users to select the platform native identity mechanism",
+          "type": "object",
+          "required": [
+            "provider"
+          ],
+          "properties": {
+            "identityId": {
+              "type": "string"
+            },
+            "provider": {
+              "description": "PodIdentityProvider contains the list of providers",
+              "type": "string"
+            }
+          }
+        },
+        "secretTargetRef": {
+          "type": "array",
+          "items": {
+            "description": "AuthSecretTargetRef is used to authenticate using a reference to a secret",
+            "type": "object",
+            "required": [
+              "key",
+              "name",
+              "parameter"
+            ],
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "parameter": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "keda.sh",
+      "kind": "TriggerAuthentication",
+      "version": "v1alpha1"
+    }
+  ],
+  "$schema": "http://json-schema.org/schema#"
+}
