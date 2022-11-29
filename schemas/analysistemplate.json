@@ -3939,5 +3939,12 @@
       }
     }
   },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "argoproj.io",
+      "kind": "AnalysisTemplate",
+      "version": "v1alpha1"
+    }
+  ],
   "$schema": "http://json-schema.org/schema#"
 }
